@@ -22,6 +22,15 @@ class Tries {
     }
     current.isEndOfWord = true;
   }
+  public contains(input: string): boolean {
+    if (input == null || undefined) throw new Error("wrong input");
+    let current = this.root;
+    for (let ch of input) {
+      if (!current.getChild(ch)) return false;
+      current = current.getChild(ch)!;
+    }
+    return current.isEndOfWord;
+  }
 }
 
 export default Tries;
