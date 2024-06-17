@@ -2,6 +2,8 @@ import Tries from "./Tries";
 
 const tries = new Tries();
 
-tries.insert("catch");
+tries.insert("sta");
+tries.insert("sba");
 
-console.log(tries.contains("catch"));
+tries.remove("sta");
+console.log(tries);

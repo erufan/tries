@@ -1,13 +1,23 @@
 class Node {
   private children: Map<string, Node> = new Map();
   public isEndOfWord: boolean = false;
-  constructor(private value: string) {}
+  constructor(public value: string) {}
 
   public getChild(ch: string) {
     return this.children.get(ch);
   }
   public addChild(ch: string, node: Node) {
     return this.children.set(ch, node);
+  }
+  public deleteChild(ch: string) {
+    return this.children.delete(ch);
+  }
+
+  public hasChild() {
+    return this.children.size !== 0;
+  }
+  public removeChild(ch: string) {
+    return this.children.delete(ch);
   }
 }
 
@@ -30,6 +40,26 @@ class Tries {
       current = current.getChild(ch)!;
     }
     return current.isEndOfWord;
+  }
+  public remove(input: string, index = 0) {
+    this.$remove(this.root, input, index);
+  }
+
+  private $remove(root: Node, input: string, index: number) {
+    if (index == input.length) {
+      root.isEndOfWord = false;
+      return;
+    }
+
+    const ch = input[index];
+    const child = root.getChild(ch);
+    if (child == null) return;
+
+    this.$remove(child, input, index + 1);
+
+    if (!child.hasChild() && !child.isEndOfWord) {
+      root.removeChild(ch);
+    }
   }
 }
 
