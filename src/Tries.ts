@@ -19,6 +19,9 @@ class Node {
   public removeChild(ch: string) {
     return this.children.delete(ch);
   }
+  public allChildren(): Node[] {
+    return [...this.children.values()];
+  }
 }
 
 class Tries {
@@ -43,6 +46,36 @@ class Tries {
   }
   public remove(input: string, index = 0) {
     this.$remove(this.root, input, index);
+  }
+
+  public findWord(prefix: string) {
+    const listOfWords: string[] = [];
+    let lastNode = this.findLastNode(prefix);
+
+    this.$findWord(lastNode!, prefix, listOfWords);
+    return listOfWords;
+  }
+
+  private $findWord(root: Node, prefix: string, list: string[]) {
+    if (root == null) return;
+
+    if (root.isEndOfWord) list.push(prefix);
+
+    for (let x of root.allChildren()) {
+      this.$findWord(x, prefix + x.value, list);
+    }
+  }
+
+  private findLastNode(prefix: string) {
+    if (prefix == null) return;
+
+    let current = this.root;
+    for (let x of prefix) {
+      let child = current.getChild(x);
+      if (child == null) return null;
+      current = child;
+    }
+    return current;
   }
 
   private $remove(root: Node, input: string, index: number) {

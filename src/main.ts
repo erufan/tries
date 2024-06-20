@@ -2,8 +2,10 @@ import Tries from "./Tries";
 
 const tries = new Tries();
 
-tries.insert("sta");
-tries.insert("sba");
+tries.insert("car");
+tries.insert("care");
+tries.insert("careful");
 
-tries.remove("sta");
-console.log(tries);
+tries.insert("egg");
+
+console.log(tries.findWord(""));
